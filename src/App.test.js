@@ -1,11 +1,9 @@
 import React from 'react';
-import 'react-testing-library';
-import { shallow } from 'enzyme';
+import { render } from 'react-testing-library';
 
 import App from './App';
-import Login from './components/login';
 
 it('renders without crashing', () => {
-  const component = shallow(<App/>);
-  expect(component.contains(<Login/>)).toEqual(true);
+  const { queryByText } = render(<App/>);
+  expect(queryByText("Sign In")).not.toBeNull();
 });

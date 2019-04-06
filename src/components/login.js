@@ -1,13 +1,19 @@
 import React from 'react';
 
 function Login(props) {
+  const users = props.users || {};
+
+  function renderUsers(users) {
+    return Object.values(users).map((user) => (
+      <option key={user.id} className="user">{user.name}</option>
+    ));
+  }
+
   return (
-    <div className="Login">
+    <div>
       <form>
-        <select className="users">
-          <option className="user">Sarah Edo</option>
-          <option className="user">Tyler McGinnis</option>
-          <option className="user">John Doe</option>
+        <select>
+          { renderUsers(users) }
         </select>
         <button>Sign In</button>
       </form>
