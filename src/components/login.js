@@ -1,43 +1,47 @@
 import React from 'react';
 
-function Login(props) {
-  const users = props.users || {};
-  const onLogin = props.onLogin || (() => null);
-  // let selectedUser = Object.values(users)[0];
-  let selectedUser = Object.values(users)[0];
+class Login extends React.Component {
+  constructor(props) {
+    super(props);
 
-  const renderUsers = (users, selectedUser) => {
-    return Object.values(users).map((user) => (
-      <option key={user.id} value={user.id} className="user">{user.name}</option>
-    ));
+    this.state = {
+      selectedUser: {}
+    };
   }
 
-  const getSelectedUser = (event) => {
-    return users[event.target.value];
-  }
+  render() {
+    const users = this.props.users || {};
+    const onLogin = this.props.onLogin || (() => null);
 
-  const handleLogin = (event, selectedUser, callback) => {
-    console.log('User: ', selectedUser)
-    callback(selectedUser);
-  }
+    const renderUsers = (users, selectedUser) => {
+      return Object.values(users).map((user) => (
+        <option key={user.id} value={user.id} className="user">{user.name}</option>
+      ));
+    }
 
-  const handleUserSelect = (event) => {
-    // TODO: Is this internal state change bad?
-    console.log('User selected')
-    selectedUser = getSelectedUser(event);
-  }
+    const getSelectedUser = (event) => {
+      return users[event.target.value];
+    }
 
-  console.log("Rendering: ", new Date().getTime())
-  return (
-    <div>
+    const handleLogin = (event, selectedUser, callback) => {
+      callback(selectedUser);
+    }
+
+    const handleUserSelect = (event) => {
+      this.setState({ selectedUser: getSelectedUser(event) });
+    }
+
+    return (
       <div>
-        <select data-testid="userSelect" onChange={handleUserSelect}>
-          { renderUsers(users, selectedUser) }
-        </select>
-        <button onClick={(event) => handleLogin(event, selectedUser, onLogin)}>Sign In</button>
+        <div>
+          <select data-testid="userSelect" onChange={handleUserSelect}>
+            {renderUsers(users, this.state.selectedUser)}
+          </select>
+          <button onClick={(event) => handleLogin(event, this.state.selectedUser, onLogin)}>Sign In</button>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default Login

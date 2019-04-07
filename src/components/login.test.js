@@ -6,54 +6,108 @@ import Login from './login';
 afterEach(cleanup);
 
 describe('Login', () => {
-  test('has a list of users to select from', () => {
-    const users = {
-      sarahedo: {
-        id: 'sarahedo',
-        name: 'Sarah Edo',
-      },
-      tylermcginnis: {
-        id: 'tylermcginnis',
-        name: 'Tyler McGinnis',
-      },
-      johndoe: {
-        id: 'johndoe',
-        name: 'John Doe',
-      }
-    };
-    const { getByText } = render(<Login users={users}/>);
+  describe('when no initial user selection is made', () => {
+    test('the component shows a list of users to select from', () => {
+      const users = {
+        sarahedo: {
+          id: 'sarahedo',
+          name: 'Sarah Edo',
+        },
+        tylermcginnis: {
+          id: 'tylermcginnis',
+          name: 'Tyler McGinnis',
+        },
+        johndoe: {
+          id: 'johndoe',
+          name: 'John Doe',
+        }
+      };
+      const { getByText } = render(<Login users={users}/>);
 
-    expect(getByText('Sarah Edo')).not.toBeNull();
-    expect(getByText('Tyler McGinnis')).not.toBeNull();
-    expect(getByText('John Doe')).not.toBeNull();
+      expect(getByText('Sarah Edo')).toBeDefined();
+      expect(getByText('Tyler McGinnis')).toBeDefined();
+      expect(getByText('John Doe')).toBeDefined();
+    });
+
+    test('the initial selection is Sarah Edo', () => {
+      const users = {
+        sarahedo: {
+          id: 'sarahedo',
+          name: 'Sarah Edo',
+        },
+        johndoe: {
+          id: 'johndoe',
+          name: 'John Doe',
+        },
+        tylermcginnis: {
+          id: 'tylermcginnis',
+          name: 'Tyler McGinnis',
+        },
+      };
+
+      const { getByTestId } = render(<Login users={users}/>);
+
+      expect(getByTestId('userSelect').value).toEqual('sarahedo')
+    });
+
+    describe('and the user clicks Sign In', () => {
+      test.skip('notifies of a login request for Sarah Edo', () => {
+        const users = {
+          sarahedo: {
+            id: 'sarahedo',
+            name: 'Sarah Edo',
+          },
+          johndoe: {
+            id: 'johndoe',
+            name: 'John Doe',
+          },
+          tylermcginnis: {
+            id: 'tylermcginnis',
+            name: 'Tyler McGinnis',
+          },
+        };
+
+        const clickHandler = jest.fn();
+
+        const { getByTestId, getByText } = render(<Login users={users} onLogin={clickHandler}/>);
+
+        fireEvent.change(getByTestId('userSelect'), {target: {value: 'tylermcginnis'}});
+        fireEvent.click(getByText('Sign In'));
+
+        expect(clickHandler.mock.calls.length).toEqual(1);
+        expect(clickHandler.mock.calls[0][0].id).toEqual('tylermcginnis');
+      });
+    })
   });
 
-  test('logins in a user', () => {
-    const users = {
-      sarahedo: {
-        id: 'sarahedo',
-        name: 'Sarah Edo',
-      },
-      tylermcginnis: {
-        id: 'tylermcginnis',
-        name: 'Tyler McGinnis',
-      },
-      johndoe: {
-        id: 'johndoe',
-        name: 'John Doe',
-      }
-    };
+  describe('when the user selects Tyler McGinnis', () => {
+    describe('and clicks Sign In', () => {
+      test('the component notifies of a login request for Tyler McGinnis', () => {
+        const users = {
+          sarahedo: {
+            id: 'sarahedo',
+            name: 'Sarah Edo',
+          },
+          johndoe: {
+            id: 'johndoe',
+            name: 'John Doe',
+          },
+          tylermcginnis: {
+            id: 'tylermcginnis',
+            name: 'Tyler McGinnis',
+          },
+        };
 
-    const clickHandler = jest.fn(x => console.log("I have been called with: ", x));
+        const clickHandler = jest.fn();
 
-    const { getByDisplayValue, getByTestId, getByText, debug } = render(<Login users={users} onLogin={clickHandler}/>);
+        const {getByTestId, getByText} = render(<Login users={users} onLogin={clickHandler}/>);
 
-    fireEvent.change(getByDisplayValue('Sarah Edo'), {target: {value: 'tylermcginnis'}});
-    getByDisplayValue('Tyler McGinnis')
-    fireEvent.click(getByText('Sign In'));
+        fireEvent.change(getByTestId('userSelect'), {target: {value: 'tylermcginnis'}});
+        fireEvent.click(getByText('Sign In'));
 
-    expect(clickHandler.mock.calls.length).toEqual(1);
-    debug(clickHandler.mock.calls[0])
-    expect(clickHandler.mock.calls[0][0].id).toEqual('tylermcginnis');
+        expect(clickHandler.mock.calls.length).toEqual(1);
+        expect(clickHandler.mock.calls[0][0].id).toEqual('tylermcginnis');
+      })
+    });
   });
 });
