@@ -5,7 +5,7 @@ class Login extends React.Component {
     super(props);
 
     this.state = {
-      selectedUser: {}
+      selectedUser: props.users ? Object.values(props.users)[0] : {}
     };
   }
 
@@ -19,22 +19,18 @@ class Login extends React.Component {
       ));
     }
 
-    const getSelectedUser = (event) => {
-      return users[event.target.value];
-    }
-
     const handleLogin = (event, selectedUser, callback) => {
       callback(selectedUser);
     }
 
     const handleUserSelect = (event) => {
-      this.setState({ selectedUser: getSelectedUser(event) });
+      this.setState({ selectedUser: users[event.target.value] });
     }
 
     return (
       <div>
         <div>
-          <select data-testid="userSelect" onChange={handleUserSelect}>
+          <select data-testid="userSelect" onChange={handleUserSelect} value={this.state.selectedUser}>
             {renderUsers(users, this.state.selectedUser)}
           </select>
           <button onClick={(event) => handleLogin(event, this.state.selectedUser, onLogin)}>Sign In</button>

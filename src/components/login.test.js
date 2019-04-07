@@ -51,7 +51,7 @@ describe('Login', () => {
     });
 
     describe('and the user clicks Sign In', () => {
-      test.skip('notifies of a login request for Sarah Edo', () => {
+      test('notifies of a login request for Sarah Edo', () => {
         const users = {
           sarahedo: {
             id: 'sarahedo',
@@ -71,11 +71,11 @@ describe('Login', () => {
 
         const { getByTestId, getByText } = render(<Login users={users} onLogin={clickHandler}/>);
 
-        fireEvent.change(getByTestId('userSelect'), {target: {value: 'tylermcginnis'}});
+        fireEvent.change(getByTestId('userSelect'), {target: {value: 'sarahedo'}});
         fireEvent.click(getByText('Sign In'));
 
         expect(clickHandler.mock.calls.length).toEqual(1);
-        expect(clickHandler.mock.calls[0][0].id).toEqual('tylermcginnis');
+        expect(clickHandler.mock.calls[0][0].id).toEqual('sarahedo');
       });
     })
   });
