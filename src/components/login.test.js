@@ -1,7 +1,10 @@
 import React from 'react';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 import { render, cleanup, fireEvent } from 'react-testing-library';
 
 import Login from './login';
+import usersReducer from '../reducers/users'
 
 afterEach(cleanup);
 
@@ -22,7 +25,10 @@ describe('Login', () => {
           name: 'John Doe',
         }
       };
-      const { getByText } = render(<Login users={users}/>);
+
+      const store = createStore(usersReducer);
+      const { getByText } = render(<Provider store={store}><Login/></Provider>);
+      store.dispatch({ type: "RECEIVE_USERS", users: users });
 
       expect(getByText('Sarah Edo')).toBeDefined();
       expect(getByText('Tyler McGinnis')).toBeDefined();
@@ -45,7 +51,9 @@ describe('Login', () => {
         },
       };
 
-      const { getByTestId } = render(<Login users={users}/>);
+      const store = createStore(usersReducer);
+      const { getByTestId } = render(<Provider store={store}><Login/></Provider>);
+      store.dispatch({ type: "RECEIVE_USERS", users: users });
 
       expect(getByTestId('userSelect').value).toEqual('sarahedo')
     });
@@ -69,7 +77,9 @@ describe('Login', () => {
 
         const clickHandler = jest.fn();
 
-        const { getByTestId, getByText } = render(<Login users={users} onLogin={clickHandler}/>);
+        const store = createStore(usersReducer);
+        const { getByTestId, getByText } = render(<Provider store={store}><Login onLogin={clickHandler}/></Provider>);
+        store.dispatch({ type: "RECEIVE_USERS", users: users });
 
         fireEvent.change(getByTestId('userSelect'), {target: {value: 'sarahedo'}});
         fireEvent.click(getByText('Sign In'));
@@ -100,7 +110,9 @@ describe('Login', () => {
 
         const clickHandler = jest.fn();
 
-        const {getByTestId, getByText} = render(<Login users={users} onLogin={clickHandler}/>);
+        const store = createStore(usersReducer);
+        const { getByTestId, getByText } = render(<Provider store={store}><Login onLogin={clickHandler}/></Provider>);
+        store.dispatch({ type: "RECEIVE_USERS", users: users });
 
         fireEvent.change(getByTestId('userSelect'), {target: {value: 'tylermcginnis'}});
         fireEvent.click(getByText('Sign In'));
@@ -110,4 +122,27 @@ describe('Login', () => {
       })
     });
   });
+
+  it("loads from the Redux store", () => {
+    const users = {
+      sarahedo: {
+        id: 'sarahedo',
+          name: 'Sarah Edo',
+      },
+      johndoe: {
+        id: 'johndoe',
+          name: 'John Doe',
+      },
+      tylermcginnis: {
+        id: 'tylermcginnis',
+          name: 'Tyler McGinnis',
+      }
+    };
+
+    const store = createStore(usersReducer);
+    const { getByText } = render(<Provider store={store}><Login /></Provider>);
+    store.dispatch({ type: "RECEIVE_USERS", users: users });
+
+    expect(getByText('Sarah Edo')).toBeDefined();
+  })
 });
