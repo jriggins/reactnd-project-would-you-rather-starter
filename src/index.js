@@ -4,11 +4,12 @@ import { createStore } from 'redux';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import middleware from './middleware';
 import * as serviceWorker from './serviceWorker';
 
 import users from './reducers/users'
 
-const store = createStore(users);
+const store = createStore(users, middleware);
 
 ReactDOM.render(
   <Provider store={store}>

@@ -2,26 +2,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 import Login from './components/login';
+import { getUsers } from './api';
+import { receiveUsers } from './actions/users';
+
+function loadInitialData() {
+  return (dispatch) => {
+    return getUsers().then((users) => (
+      dispatch(receiveUsers(users))
+    ));
+  }
+}
 
 class App extends Component {
   componentDidMount() {
-    this.props.dispatch({
-      type: 'RECEIVE_USERS',
-      users: {
-        sarahedo: {
-          id: 'sarahedo',
-          name: 'Sarah Edo',
-        },
-        tylermcginnis: {
-          id: 'tylermcginnis',
-          name: 'Tyler McGinnis',
-        },
-        johndoe: {
-          id: 'johndoe',
-          name: 'John Doe',
-        }
-      }
-    });
+    this.props.dispatch(loadInitialData());
   }
 
   render() {

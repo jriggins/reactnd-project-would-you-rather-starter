@@ -81,7 +81,7 @@ describe('Login', () => {
         const { getByTestId, getByText } = render(<Provider store={store}><Login onLogin={clickHandler}/></Provider>);
         store.dispatch({ type: "RECEIVE_USERS", users: users });
 
-        fireEvent.change(getByTestId('userSelect'), {target: {value: 'sarahedo'}});
+        // fireEvent.change(getByTestId('userSelect'), {target: {value: 'sarahedo'}});
         fireEvent.click(getByText('Sign In'));
 
         expect(clickHandler.mock.calls.length).toEqual(1);
