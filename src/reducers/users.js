@@ -1,11 +1,10 @@
 
-export default function users(state, action) {
+export default function users(state = {}, action) {
   switch (action.type) {
     case "RECEIVE_USERS":
-      return {
-        ...state,
+      return Object.assign({}, state, {
         "users": action.users
-      };
+      });
     default:
       return state;
   }

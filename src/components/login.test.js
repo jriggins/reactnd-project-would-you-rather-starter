@@ -58,7 +58,7 @@ describe('Login', () => {
       expect(getByTestId('userSelect').value).toEqual('sarahedo')
     });
 
-    describe('and the user clicks Sign In', () => {
+    describe('and clicks Sign In', () => {
       test('notifies of a login request for Sarah Edo', () => {
         const users = {
           sarahedo: {
@@ -78,7 +78,7 @@ describe('Login', () => {
         const clickHandler = jest.fn();
 
         const store = createStore(usersReducer);
-        const { getByTestId, getByText } = render(<Provider store={store}><Login onLogin={clickHandler}/></Provider>);
+        const { getByText } = render(<Provider store={store}><Login onLogin={clickHandler}/></Provider>);
         store.dispatch({ type: "RECEIVE_USERS", users: users });
 
         // fireEvent.change(getByTestId('userSelect'), {target: {value: 'sarahedo'}});
