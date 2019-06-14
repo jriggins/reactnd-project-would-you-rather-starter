@@ -1,17 +1,23 @@
 import React from 'react';
 
-function Login() {
+const Login = ({users}) => {
+  users = users || {};
+
   return(
     <div>
       <form>
-        <label>Login
-          <select>
-            <option></option>
-          </select>
-        </label>
+        <label htmlFor="login_users">Login</label>
+        <select id="login_users">
+          <option data-testid="default">--- Please select a user ---</option>
+          {
+            Object.values(users).map((user) => {
+              return <option key={user.id} data-testid={user.id}>{user.name}</option>
+            })
+          }
+        </select>
       </form>
     </div>
   );
-}
+};
 
 export default Login;
