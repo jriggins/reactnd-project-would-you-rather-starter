@@ -1,8 +1,6 @@
 import React from 'react';
 
 const Login = ({users}) => {
-  users = users || {};
-
   return(
     <div>
       <form>
@@ -10,7 +8,7 @@ const Login = ({users}) => {
         <select id="login_users">
           <option data-testid="default">--- Please select a user ---</option>
           {
-            Object.values(users).map((user) => {
+            Object.values(users || {}).map((user) => {
               return <option key={user.id} data-testid={user.id}>{user.name}</option>
             })
           }
