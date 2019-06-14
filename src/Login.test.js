@@ -1,12 +1,7 @@
 import React from 'react';
 import Login from './Login';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { getByText } from '@testing-library/dom';
-
-test('displays a Login control', () => {
-  const { getByLabelText } = render(<Login />);
-  getByLabelText('Login')
-});
 
 describe('with a list of users', () => {
   const users = {
@@ -24,12 +19,20 @@ describe('with a list of users', () => {
     },
   };
 
-  test('displays a Login control with the list of users', () => {
-    expect(Object.values(users).length).toBe(3);
+  test('displays a Login control with the list of Users', () => {
     const { getByTestId } = render(<Login users={users}/>);
     getByTestId('default');
     getByTestId('sarahedo');
     getByTestId('tylermcginnis');
     getByTestId('johndoe');
+  });
+
+  describe('when User Tyler McGinnis is selected', () => {
+    test('sets Tyler McGinnis as the selected user', () => {
+      const { getByDisplayValue, getByLabelText } = render(<Login users={users}/>);
+      const select  = getByLabelText('Login');
+      fireEvent.change(select, { target: { value: 'tylermcginnis'}});
+      getByDisplayValue('Tyler McGinnis')
+    });
   });
 });
