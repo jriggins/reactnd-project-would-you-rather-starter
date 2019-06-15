@@ -1,7 +1,6 @@
 import React from 'react';
 import Login from './Login';
 import { render, fireEvent } from '@testing-library/react';
-import { getByText } from '@testing-library/dom';
 
 describe('with a list of users', () => {
   const users = {
@@ -30,9 +29,18 @@ describe('with a list of users', () => {
   describe('when User Tyler McGinnis is selected', () => {
     test('sets Tyler McGinnis as the selected user', () => {
       const { getByDisplayValue, getByLabelText } = render(<Login users={users}/>);
-      const select  = getByLabelText('Login');
-      fireEvent.change(select, { target: { value: 'tylermcginnis'}});
+      fireEvent.change(getByLabelText('Login'), { target: { value: 'tylermcginnis'}});
+
       getByDisplayValue('Tyler McGinnis')
+    });
+
+    test('allows a User to login as Tyler McGinnis', () => {
+      const onLoginHandler = jest.fn((user) => user);
+      const { getByLabelText } = render(<Login users={users} onLogin={onLoginHandler}/>);
+      fireEvent.change(getByLabelText('Login'), { target: { value: 'tylermcginnis'}});
+      fireEvent.submit(getByLabelText('Login'));
+
+      expect(onLoginHandler.mock.calls).toEqual([['tylermcginnis']]);
     });
   });
 });

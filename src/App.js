@@ -13,13 +13,18 @@ class App extends React.Component {
   }
 
   updateUsers = (users) => {
-    this.setState({users: users})
+    this.setState({ users: users })
+  };
+
+  onLogin = (userId) => {
+    this.setState({ loggedInUserId: userId });
   };
 
   render() {
     return (
       <div className="App">
-        <Login users={this.state.users}/>
+        <Login users={this.state.users} onLogin={this.onLogin}/>
+        <p>Logged In: {this.state.loggedInUserId}</p>
       </div>
     );
   };

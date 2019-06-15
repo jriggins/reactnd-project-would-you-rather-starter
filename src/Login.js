@@ -12,11 +12,16 @@ class Login extends React.Component {
     this.setState({selectedUserId: event.target.value});
   };
 
+  onLoginSubmitted = (event) => {
+    event.preventDefault();
+    this.props.onLogin(this.state.selectedUserId);
+  };
+
   render() {
     return (
-      <form>
+      <form onSubmit={this.onLoginSubmitted}>
         <label htmlFor="login_users">Login</label>
-        <select id="login_users" value={this.state.selectedUserId} onChange={this.onUserSelected}>
+        <select id="login_users" data-testid="login_users" value={this.state.selectedUserId} onChange={this.onUserSelected}>
           <option key="default" data-testid="default">--- Please select a user ---</option>
           {
             Object.values(this.props.users).map((user) => {
@@ -24,6 +29,7 @@ class Login extends React.Component {
             })
           }
         </select>
+        <input type="submit" value="Login"/>
       </form>
     );
   }
