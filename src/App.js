@@ -1,7 +1,6 @@
 import React from 'react';
-import Login from './Login';
-import './App.css';
-import { _getUsers as getUsers } from './_DATA';
+import Login from './components/Login';
+import { getInitialData } from './utils/api'
 
 class App extends React.Component {
   state = {
@@ -9,7 +8,7 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    getUsers().then(this.updateUsers);
+    getInitialData().then((data) => this.updateUsers(data.users));
   }
 
   updateUsers = (users) => {
