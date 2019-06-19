@@ -1,19 +1,16 @@
 import React from 'react';
 import Login from './components/Login';
-import { getInitialData } from './utils/api'
+import { connect } from 'react-redux';
+import { loadInitialData } from './actions';
 
-class App extends React.Component {
+export class App extends React.Component {
   state = {
     users: {}
   };
 
   componentDidMount() {
-    getInitialData().then((data) => this.updateUsers(data.users));
+    this.props.dispatch(loadInitialData());
   }
-
-  updateUsers = (users) => {
-    this.setState({ users: users })
-  };
 
   onLogin = (userId) => {
     this.setState({ loggedInUserId: userId });
@@ -22,11 +19,15 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Login users={this.state.users} onLogin={this.onLogin}/>
+        <Login onLogin={this.onLogin}/>
         <p>Logged In: {this.state.loggedInUserId}</p>
       </div>
     );
   };
 }
 
-export default App;
+function mapStateToProps() {
+  return {};
+}
+
+export default connect(mapStateToProps)(App);

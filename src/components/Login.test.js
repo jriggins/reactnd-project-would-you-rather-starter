@@ -1,6 +1,11 @@
 import React from 'react';
-import Login from './Login';
+import { Login } from './Login';
+import ConnectedLogin from './Login';
 import { render, fireEvent } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import reducer from '../reducers';
+import { receiveUsers } from '../actions';
 
 describe('with a list of users', () => {
   const users = {
@@ -18,8 +23,25 @@ describe('with a list of users', () => {
     },
   };
 
+  test('is a connected component', () => {
+    const store = createStore(reducer);
+    store.dispatch(receiveUsers(users));
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <ConnectedLogin/>
+      </Provider>
+    );
+
+    getByTestId('default');
+    getByTestId('sarahedo');
+    getByTestId('tylermcginnis');
+    getByTestId('johndoe');
+  });
+
   test('displays a Login control with the list of Users', () => {
-    const { getByTestId } = render(<Login users={users}/>);
+    const { getByTestId } = render(
+        <Login users={users}/>
+    );
     getByTestId('default');
     getByTestId('sarahedo');
     getByTestId('tylermcginnis');
