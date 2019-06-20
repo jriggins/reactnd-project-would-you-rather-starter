@@ -7,6 +7,13 @@ export function receiveUsers(users) {
   };
 }
 
+export function loginUser(userId) {
+  return {
+    type: 'LOGIN_USER',
+    userId
+  }
+}
+
 export function loadInitialData() {
   return (dispatch) => {
     getInitialData()

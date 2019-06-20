@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { loginUser } from '../actions';
 
 export class Login extends React.Component {
   constructor(props) {
@@ -15,7 +16,7 @@ export class Login extends React.Component {
 
   onLoginSubmitted = (event) => {
     event.preventDefault();
-    this.props.onLogin(this.state.selectedUserId);
+    this.props.loginUser(this.state.selectedUserId);
   };
 
   render() {
@@ -42,4 +43,8 @@ function mapStateToProps({ users = {} }) {
   }
 }
 
-export default connect(mapStateToProps)(Login);
+const mapDispatchToProps = {
+  loginUser
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
