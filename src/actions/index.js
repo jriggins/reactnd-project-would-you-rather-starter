@@ -7,6 +7,13 @@ export function receiveUsers(users) {
   };
 }
 
+export function receiveQuestions(questions) {
+  return {
+    type: 'RECEIVE_QUESTIONS',
+    questions
+  };
+}
+
 export function loginUser(user) {
   return {
     type: 'LOGIN_USER',
@@ -24,8 +31,9 @@ export function logoutUser(user) {
 export function loadInitialData() {
   return (dispatch) => {
     getInitialData()
-      .then(({ users }) => {
-        dispatch(receiveUsers(users))
+      .then(({ users, questions }) => {
+        dispatch(receiveUsers(users));
+        dispatch(receiveQuestions(questions));
       });
   }
 }
