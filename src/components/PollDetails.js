@@ -1,44 +1,78 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import Profile from './Profile';
+import Profile from "./Profile";
+import { savePollAnswer } from '../actions';
 
 // TODO REMOVE
 import { questions as Q } from '../utils/_DATA';
 
 class PollDetails extends React.Component {
+  state = {
+    answer: ''
+  };
+
   getAnsweredClass = (option) => {
     return this.props.answer === option ? "answered" : "answered-no";
   };
 
   renderAnswered = () => {
+    const {
+      question,
+      optionOne,
+      optionTwo,
+      optionOneVoteCount,
+      optionTwoVoteCount,
+      optionOneVotePercentage,
+      optionTwoVotePercentage,
+      totalVoteCount
+    } = this.props;
+
     return(
       <div>
         <h3>Question Details (Your Answer is in <span className="answered">Green</span>)</h3>
-        <img className="avatar" src={this.props.question.authorAvatarURL} alt={this.props.question.author}/>
-        <h4 className={this.getAnsweredClass("optionOne")}>Option One ({this.props.optionOneVoteCount} of {this.props.totalVoteCount} Votes {this.props.optionOneVotePercentage}%)</h4>
-        <p className="option">{this.props.optionOne}</p>
+        <img className="avatar" src={question.authorAvatarURL} alt={question.author}/>
+        <h4 className={this.getAnsweredClass("optionOne")}>Option One ({optionOneVoteCount} of {totalVoteCount} Votes {optionOneVotePercentage}%)</h4>
+        <p className="option">{optionOne}</p>
 
-        <h4 className={this.getAnsweredClass("optionTwo")}>Option Two ({this.props.optionTwoVoteCount} of {this.props.totalVoteCount} Votes {this.props.optionTwoVotePercentage}%)</h4>
-        <p className="option">{this.props.optionTwo}</p>
+        <h4 className={this.getAnsweredClass("optionTwo")}>Option Two ({optionTwoVoteCount} of {totalVoteCount} Votes {optionTwoVotePercentage}%)</h4>
+        <p className="option">{optionTwo}</p>
       </div>
-    )
+    );
   };
 
-  renderUnAnswered = () => {
+  handlePollAnswerSubmitted = (event) => {
+    const { loggedInUser, question } = this.props;
+    event.preventDefault();
+    this.props.savePollAnswer(loggedInUser.id, question.id, this.state.answer);
+  };
+
+  handlePollAnswerChanged = (event) => {
+    this.setState({
+      answer: event.target.value
+    });
+  };
+
+  renderUnanswered = () => {
+    const {
+      question,
+      optionOne,
+      optionTwo
+    } = this.props;
+
     return(
       <div>
         <h3>Would You Rather?</h3>
-        <img className="avatar" src={this.props.question.authorAvatarURL} alt={this.props.question.author}/>
-        <form>
+        <img className="avatar" src={question.authorAvatarURL} alt={question.author}/>
+        <form onSubmit={this.handlePollAnswerSubmitted} onChange={this.handlePollAnswerChanged}>
           <label>
-            <input name="answer" type="radio"/>
-            {this.props.optionOne}
+            <input name="answer" type="radio" value="optionOne"/>
+            {optionOne}
           </label>
           <br/>
           <label>
-            <input name="answer" type="radio"/>
-            {this.props.optionTwo}
+            <input name="answer" type="radio" value="optionTwo"/>
+            {optionTwo}
           </label>
           <br/>
           <input type="submit" value="Submit Answer"/>
@@ -52,7 +86,7 @@ class PollDetails extends React.Component {
       <div>
         <Profile/>
         <div className="PollDetails">
-          { this.props.isAnswered ? this.renderAnswered() : this.renderUnAnswered() }
+          { this.props.isAnswered ? this.renderAnswered() : this.renderUnanswered() }
         </div>
       </div>
     );
@@ -112,8 +146,13 @@ function mapStateToProps({ loggedInUser, questions, users }, props) {
     optionTwoVotePercentage,
     totalVoteCount,
     answer,
-    isAnswered
+    isAnswered,
+    loggedInUser
   }
 }
 
-export default connect(mapStateToProps)(PollDetails);
+const mapDispatchToProps = {
+  savePollAnswer
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PollDetails);
