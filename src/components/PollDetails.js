@@ -4,9 +4,6 @@ import { connect } from "react-redux";
 import Profile from "./Profile";
 import { savePollAnswer } from '../actions';
 
-// TODO REMOVE
-import { questions as Q } from '../utils/_DATA';
-
 class PollDetails extends React.Component {
   state = {
     answer: ''
@@ -119,14 +116,16 @@ function dig(object, keys, defaultValue) {
 }
 
 function getQuestionById(questionId, questions, users) {
-  let question = Object.values(questions).filter((question) => (question.id === questionId))[0] || Q["8xf0y6ziyjabvozdd253nd"]; // TODO REMOVE
-  question.authorAvatarURL = users && process.env.PUBLIC_URL + users[question.author].avatarURL;
-  return question;
+  let filteredQuestion = Object.values(questions).filter((question) => (question.id === questionId))[0];
+  return {
+    ...filteredQuestion,
+    authorAvatarURL: filteredQuestion.authorAvatarURL = users && process.env.PUBLIC_URL + users[filteredQuestion.author].avatarURL
+  };
 }
 
 function mapStateToProps({ loggedInUser, questions, users }, props) {
   const { questionId } = props.match.params;
-  const question = getQuestionById(questionId, questions, users.users);
+  const question = getQuestionById(questionId, questions, users);
   const optionOneVoteCount = question.optionOne.votes.length;
   const optionTwoVoteCount = question.optionTwo.votes.length;
   const totalVoteCount = optionOneVoteCount + optionTwoVoteCount;
