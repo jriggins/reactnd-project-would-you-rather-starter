@@ -37,6 +37,13 @@ export function submitPollAnswer(userId, questionId, answer) {
   }
 }
 
+export function addQuestion(question) {
+  return {
+    type: 'ADD_QUESTION',
+    question
+  }
+}
+
 export function loadInitialData() {
   return (dispatch) => {
     api.getInitialData()
@@ -53,4 +60,11 @@ export function savePollAnswer(userId, questionId, answer) {
       .then(dispatch(submitPollAnswer(userId, questionId, answer)))
       .then(dispatch(loadInitialData()));
   }
+}
+
+export function saveQuestion(userId, optionOne, optionTwo) {
+  return (dispatch) => {
+    api.saveQuestion(userId, optionOne, optionTwo)
+      .then((question) => dispatch(addQuestion(question)));
+  };
 }

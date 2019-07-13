@@ -58,3 +58,24 @@ code {
 .PollDetails .answered-no {
   color: red;
 }
+
+#add-question-link {
+  margin: 10px auto;
+}
+
+.add-question-option-input {
+  width: 400px;
+  height: 100px;
+}
+
+#add-question-form span {
+  padding: 10px;
+}
+
+.button {
+  background-color: deepskyblue;
+  color: white;
+  font-weight: bold;
+  border-radius: 2px;
+  padding: 5px;
+}

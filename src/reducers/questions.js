@@ -14,6 +14,14 @@ export default function(previousState = {}, action) {
           }
         }
       };
+    case 'ADD_QUESTION': {
+      return {
+        ...previousState,
+        [action.question.id]: {
+          ...action.question
+        }
+      }
+    }
     default:
       return previousState;
   }
