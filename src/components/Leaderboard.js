@@ -14,7 +14,7 @@ class Leaderboard extends React.Component {
               <li key={leaderboardItem.id}>
                 <div>
                   <p>{leaderboardItem.name}</p>
-                  <p><img alt={`${leaderboardItem.name}'s Avatar`} className="avatar" src={leaderboardItem.avatarURL}/></p>
+                  <p><img alt={`${leaderboardItem.name}'s Avatar`} className='avatar' src={leaderboardItem.avatarURL}/></p>
                   <p>{leaderboardItem.answerCount}</p>
                   <p>{leaderboardItem.questionCount}</p>
                   <p>{leaderboardItem.score}</p>
@@ -28,30 +28,12 @@ class Leaderboard extends React.Component {
   }
 }
 
-function leaderboardItem(user) {
-  const { id, name, avatarURL } = user;
-  const answerCount = Object.keys(user.answers).length;
-  const questionCount = Object.keys(user.questions).length;
-  const score = (answerCount + questionCount);
+function mapStateToProps({ loggedInUser, leaderboard }) {
+  const sortByScoreDescending = (leaderboardItemA, leaderboardItemB) => (leaderboardItemB.score - leaderboardItemA.score);
 
-  return {
-    id,
-    name,
-    avatarURL,
-    answerCount,
-    questionCount,
-    score
-  };
-}
-
-function generateLeaderboard(users) {
-  return Object.values(users).map(leaderboardItem).sort((a, b) => b.sortOrder - a.sortOrder);
-}
-
-function mapStateToProps({ loggedInUser, users }) {
   return {
     loggedInUser,
-    leaderboard: generateLeaderboard(users)
+    leaderboard: Object.values(leaderboard).sort(sortByScoreDescending)
   };
 }
 
