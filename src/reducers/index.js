@@ -1,12 +1,10 @@
 import { combineReducers } from 'redux';
 import users from './users';
 import questions from './questions';
-import loggedInUser from './loggedInUser';
-import leaderboard from './leaderboard';
+import loggedInUserId from './loggedInUserId';
 
 export default combineReducers({
   users,
   questions,
-  loggedInUser,
-  leaderboard
+  loggedInUserId
 });

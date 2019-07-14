@@ -2,28 +2,25 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { logoutUser } from '../actions';
+import { logoutUser } from '../actions/auth';
 
-class Logout extends React.Component {
-  handleLogoutUser = (event) => {
+function Logout({ loggedInUser, logoutUser, history }) {
+  const handleLogoutUser = (event) => {
     event.preventDefault();
-    this.props.logoutUser(this.props.loggedInUser);
-    this.props.history.push("/");
+    logoutUser(loggedInUser);
+    history.push('/');
   };
 
-  render() {
-    return(
-      <div>
-        <button onClick={this.handleLogoutUser}>Logout</button>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <button onClick={handleLogoutUser}>Logout</button>
+    </div>
+  );
 }
 
-function mapStateToProps({ loggedInUser, history }) {
+function mapStateToProps({ loggedInUser }) {
   return {
-    loggedInUser,
-    history
+    loggedInUser
   };
 }
 
@@ -31,4 +28,9 @@ const mapDispatchToProps = {
   logoutUser
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Logout));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Logout)
+);

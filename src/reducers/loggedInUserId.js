@@ -1,10 +1,10 @@
-export default function(previousState = {}, action) {
-  switch(action.type) {
-    case 'LOGIN_USER' :
-      return action.userId;
+export default function(previousState = null, action) {
+  switch (action.type) {
+    case 'LOGIN_USER':
+      return action.user.id;
     case 'LOGOUT_USER':
-      return '';
+      return null;
     default:
-      return '';
+      return previousState;
   }
 }

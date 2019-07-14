@@ -1,28 +1,38 @@
+import { ADD_QUESTION, RECEIVE_QUESTIONS, SUBMIT_POLL_ANSWER } from '../actions/constants';
 
 export default function(previousState = {}, action) {
-  switch(action.type) {
-    case 'RECEIVE_QUESTIONS':
-      return action.questions;
-    case 'SUBMIT_POLL_ANSWER':
+  switch (action.type) {
+    case RECEIVE_QUESTIONS:
       return {
         ...previousState,
-        [action.questionId]: {
-          ...previousState[action.questionId],
-          [action.answer]: {
-            ...previousState[action.questionId][action.answer],
-            votes: previousState[action.questionId][action.answer].votes.concat(action.userId)
+        ...action.questions
+      };
+    case SUBMIT_POLL_ANSWER:
+      const { questionId, userId, answer } = action;
+      const pollQuestion = previousState[questionId];
+      const pollAnswer = pollQuestion[answer];
+
+      return {
+        ...previousState,
+        [questionId]: {
+          ...pollQuestion,
+          [answer]: {
+            ...pollAnswer,
+            votes: pollAnswer.votes.concat(userId)
           }
         }
       };
-    case 'ADD_QUESTION': {
+    case ADD_QUESTION: {
+      const newQuestion = action.question;
+
       return {
         ...previousState,
-        [action.question.id]: {
-          ...action.question
+        [newQuestion.id]: {
+          ...newQuestion
         }
-      }
+      };
     }
     default:
       return previousState;
   }
-};
+}
