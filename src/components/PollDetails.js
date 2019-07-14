@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { savePollAnswer } from '../actions';
+import NotFound from './NotFound';
 
 class PollDetails extends React.Component {
   state = {
@@ -78,12 +79,17 @@ class PollDetails extends React.Component {
   };
 
   render() {
+    const { question, isAnswered } = this.props;
+
     return (
-      <div>
-        <div className="PollDetails">
-          { this.props.isAnswered ? this.renderAnswered() : this.renderUnanswered() }
+      (question === null) ?
+        <NotFound message="Could not find the poll that you were looking for. Sorry!"/>
+        :
+        <div>
+          <div className="PollDetails">
+            { isAnswered ? this.renderAnswered() : this.renderUnanswered() }
+          </div>
         </div>
-      </div>
     );
   }
 }
@@ -94,36 +100,47 @@ function getUsersAnswer(loggedInUser, question) {
 
 function getQuestionById(questionId, questions, users) {
   let filteredQuestion = Object.values(questions).filter((question) => (question.id === questionId))[0];
-  return {
-    ...filteredQuestion,
-    authorAvatarURL: filteredQuestion.authorAvatarURL = users && process.env.PUBLIC_URL + users[filteredQuestion.author].avatarURL
-  };
+  return (
+    filteredQuestion === undefined ?
+      null
+      :
+      {
+        ...filteredQuestion,
+        authorAvatarURL: filteredQuestion.authorAvatarURL = users && process.env.PUBLIC_URL + users[filteredQuestion.author].avatarURL
+      }
+  );
 }
 
 function mapStateToProps({ loggedInUser, questions, users }, props) {
   const { questionId } = props.match.params;
   const question = getQuestionById(questionId, questions, users);
-  const optionOneVoteCount = question.optionOne.votes.length;
-  const optionTwoVoteCount = question.optionTwo.votes.length;
-  const totalVoteCount = optionOneVoteCount + optionTwoVoteCount;
-  const optionOneVotePercentage = optionOneVoteCount / totalVoteCount * 100;
-  const optionTwoVotePercentage = optionTwoVoteCount / totalVoteCount * 100;
-  const answer = getUsersAnswer(loggedInUser, question);
-  const isAnswered = answer !== "";
 
-  return {
-    question,
-    // optionOne: dig(question, ['optionOne', 'text'], ''),
-    optionOne: question.optionOne.text,
-    optionOneVoteCount,
-    optionOneVotePercentage,
-    optionTwo: question.optionTwo.text,
-    optionTwoVoteCount,
-    optionTwoVotePercentage,
-    totalVoteCount,
-    answer,
-    isAnswered,
-    loggedInUser
+  if (question === null) {
+    return {
+      question
+    }
+  } else {
+    const optionOneVoteCount = question.optionOne.votes.length;
+    const optionTwoVoteCount = question.optionTwo.votes.length;
+    const totalVoteCount = optionOneVoteCount + optionTwoVoteCount;
+    const optionOneVotePercentage = optionOneVoteCount / totalVoteCount * 100;
+    const optionTwoVotePercentage = optionTwoVoteCount / totalVoteCount * 100;
+    const answer = getUsersAnswer(loggedInUser, question);
+    const isAnswered = answer !== "";
+
+    return {
+      question,
+      optionOne: question.optionOne.text,
+      optionOneVoteCount,
+      optionOneVotePercentage,
+      optionTwo: question.optionTwo.text,
+      optionTwoVoteCount,
+      optionTwoVotePercentage,
+      totalVoteCount,
+      answer,
+      isAnswered,
+      loggedInUser
+    }
   }
 }
 
