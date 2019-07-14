@@ -29,12 +29,7 @@ export class Login extends React.Component {
     return loggedInUser === null ? (
       <form onSubmit={this.onLoginSubmitted}>
         <label htmlFor="login_users">Login</label>
-        <select
-          id="login_users"
-          data-testid="login_users"
-          value={selectedUser.id}
-          onChange={this.onUserSelected}
-        >
+        <select id="login_users" data-testid="login_users" value={selectedUser.id} onChange={this.onUserSelected}>
           <option key="default" data-testid="default" value="">
             --- Please select a user ---
           </option>
