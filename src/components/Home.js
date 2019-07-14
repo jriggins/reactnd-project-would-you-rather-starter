@@ -13,6 +13,7 @@ class Home extends React.Component {
         <p>Home</p>
         <div id="add-question-link">
           <Link to='/add'>Add Question</Link>
+          <Link to='/leaderboard'>Leaderboard</Link>
         </div>
         <Polls/>
       </div>
