@@ -40,10 +40,9 @@ class AddQuestion extends React.Component {
   }
 }
 
-function mapStateToProps({ loggedInUser, history }) {
+function mapStateToProps({ loggedInUser }) {
   return {
-    loggedInUser,
-    history
+    loggedInUser
   };
 }
 
