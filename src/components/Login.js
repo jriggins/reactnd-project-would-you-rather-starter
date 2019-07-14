@@ -23,7 +23,8 @@ export class Login extends React.Component {
   };
 
   render() {
-    const { loggedInUser } = this.props;
+    const { loggedInUser, users } = this.props;
+    const { selectedUser } = this.state;
 
     return loggedInUser === null ? (
       <form onSubmit={this.onLoginSubmitted}>
@@ -31,13 +32,13 @@ export class Login extends React.Component {
         <select
           id="login_users"
           data-testid="login_users"
-          value={this.state.selectedUser.id}
+          value={selectedUser.id}
           onChange={this.onUserSelected}
         >
           <option key="default" data-testid="default" value="">
             --- Please select a user ---
           </option>
-          {Object.values(this.props.users).map((user) => {
+          {Object.values(users).map((user) => {
             return (
               <option key={user.id} data-testid={user.id} value={user.id}>
                 {user.name}
@@ -45,7 +46,7 @@ export class Login extends React.Component {
             );
           })}
         </select>
-        <input type="submit" value="Login" />
+        <input className="button" type="submit" value="Login" />
       </form>
     ) : (
       <Redirect to={{ pathname: '/' }} />
@@ -55,7 +56,7 @@ export class Login extends React.Component {
 
 function mapStateToProps({ users = {}, loggedInUser }) {
   return {
-    users: users,
+    users,
     loggedInUser
   };
 }
