@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import Profile from "./Profile";
 import { savePollAnswer } from '../actions';
 
 class PollDetails extends React.Component {
@@ -81,7 +80,6 @@ class PollDetails extends React.Component {
   render() {
     return (
       <div>
-        <Profile/>
         <div className="PollDetails">
           { this.props.isAnswered ? this.renderAnswered() : this.renderUnanswered() }
         </div>
@@ -92,27 +90,6 @@ class PollDetails extends React.Component {
 
 function getUsersAnswer(loggedInUser, question) {
   return loggedInUser.answers[question.id] || "";
-}
-
-function dig(object, keys, defaultValue) {
-  if  (object === null || object === undefined) {
-    return defaultValue;
-  }
-
-  const key = keys[0];
-  const value = object[key];
-
-  if (value === null && value === undefined) {
-    return defaultValue;
-  }
-
-  if (keys.length === 1) {
-    return value;
-  }
-
-  if (typeof value === 'object') {
-    return dig(value, keys.slice(1), defaultValue)
-  }
 }
 
 function getQuestionById(questionId, questions, users) {

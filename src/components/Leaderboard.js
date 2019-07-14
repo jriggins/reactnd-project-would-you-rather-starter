@@ -1,8 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { saveQuestion } from "../actions";
-
 class Leaderboard extends React.Component {
   render() {
     const { leaderboard } = this.props;
@@ -16,7 +14,7 @@ class Leaderboard extends React.Component {
               <li key={leaderboardItem.id}>
                 <div>
                   <p>{leaderboardItem.name}</p>
-                  <p><img className="avatar" src={leaderboardItem.avatarURL}/></p>
+                  <p><img alt={`${leaderboardItem.name}'s Avatar`} className="avatar" src={leaderboardItem.avatarURL}/></p>
                   <p>{leaderboardItem.answerCount}</p>
                   <p>{leaderboardItem.questionCount}</p>
                   <p>{leaderboardItem.score}</p>

@@ -8,7 +8,7 @@ import { createStore, compose } from 'redux';
 import reducer from './reducers';
 import middleware from './middleware';
 
-import { BrowserRouter as Router } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducer, composeEnhancers(middleware));

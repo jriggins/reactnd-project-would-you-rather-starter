@@ -5,12 +5,18 @@ import Logout from './Logout';
 
 class Profile extends React.Component {
   render() {
-    return (
-      <div className="Profile">
-        <p>Logged In: {this.props.loggedInUser.id}</p>
-        <Logout/>
-      </div>
-    );
+    const { loggedInUser } = this.props;
+
+    if (loggedInUser !== null) {
+      return (
+        <div className="Profile">
+          <p>Logged In: {loggedInUser.id}</p>
+          <Logout/>
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 }
 
