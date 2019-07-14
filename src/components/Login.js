@@ -7,13 +7,13 @@ export class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedUser: {id: ""}
+      selectedUser: { id: '' }
     };
   }
 
   onUserSelected = (event) => {
     const selectedUserId = event.target.value;
-    const selectedUser = Object.values(this.props.users).filter((user) => user.id === selectedUserId)[0] || {id: ""};
+    const selectedUser = Object.values(this.props.users).filter((user) => user.id === selectedUserId)[0] || { id: '' };
     this.setState({ selectedUser: selectedUser });
   };
 
@@ -25,22 +25,30 @@ export class Login extends React.Component {
   render() {
     const { loggedInUser } = this.props;
 
-    return (
-      loggedInUser === null ?
-        <form onSubmit={this.onLoginSubmitted}>
-          <label htmlFor="login_users">Login</label>
-          <select id="login_users" data-testid="login_users" value={this.state.selectedUser.id} onChange={this.onUserSelected}>
-            <option key="default" data-testid="default" value="">--- Please select a user ---</option>
-            {
-              Object.values(this.props.users).map((user) => {
-                return <option key={user.id} data-testid={user.id} value={user.id}>{user.name}</option>
-              })
-            }
-          </select>
-          <input type="submit" value="Login"/>
-        </form>
-        :
-        <Redirect to={{ pathname: "/" }}/>
+    return loggedInUser === null ? (
+      <form onSubmit={this.onLoginSubmitted}>
+        <label htmlFor="login_users">Login</label>
+        <select
+          id="login_users"
+          data-testid="login_users"
+          value={this.state.selectedUser.id}
+          onChange={this.onUserSelected}
+        >
+          <option key="default" data-testid="default" value="">
+            --- Please select a user ---
+          </option>
+          {Object.values(this.props.users).map((user) => {
+            return (
+              <option key={user.id} data-testid={user.id} value={user.id}>
+                {user.name}
+              </option>
+            );
+          })}
+        </select>
+        <input type="submit" value="Login" />
+      </form>
+    ) : (
+      <Redirect to={{ pathname: '/' }} />
     );
   }
 }
@@ -49,11 +57,14 @@ function mapStateToProps({ users = {}, loggedInUser }) {
   return {
     users: users,
     loggedInUser
-  }
+  };
 }
 
 const mapDispatchToProps = {
   loginUser
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);

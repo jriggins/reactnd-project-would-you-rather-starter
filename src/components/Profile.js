@@ -11,7 +11,7 @@ class Profile extends React.Component {
       return (
         <div className="Profile">
           <p>Logged In: {loggedInUser.id}</p>
-          <Logout/>
+          <Logout />
         </div>
       );
     } else {
@@ -20,7 +20,7 @@ class Profile extends React.Component {
   }
 }
 
-function mapStateToProps({loggedInUser}) {
+function mapStateToProps({ loggedInUser }) {
   return {
     loggedInUser
   };

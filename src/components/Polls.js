@@ -1,10 +1,10 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 class Polls extends React.Component {
   state = {
-    pollView: "unanswered"
+    pollView: 'unanswered'
   };
 
   handlePollViewChanged = (event) => {
@@ -13,50 +13,58 @@ class Polls extends React.Component {
 
   renderAnswered = () => {
     return (
-      this.state.pollView === "answered" &&
-      <div>
-        <p>Answered</p>
-        {
-          this.props.answeredPolls.map((question) => (
+      this.state.pollView === 'answered' && (
+        <div>
+          <p>Answered</p>
+          {this.props.answeredPolls.map((question) => (
             <div className="Poll" key={question.id}>
               <p>{question.author}</p>
               <p>{question.timestamp}</p>
               <p>{question.optionOne.text}</p>
               <p>{question.optionTwo.text}</p>
               <p>
-                <Link to={{
-                  pathname: `/questions/${question.id}`,
-                  state: {loggedInUser: this.props.loggedInUser}}}>View Details</Link>
+                <Link
+                  to={{
+                    pathname: `/questions/${question.id}`,
+                    state: { loggedInUser: this.props.loggedInUser }
+                  }}
+                >
+                  View Details
+                </Link>
               </p>
             </div>
-          ))
-        }
-      </div>
+          ))}
+        </div>
+      )
     );
   };
 
   renderUnanswered = () => {
-      return (
-        this.state.pollView === "unanswered" &&
+    return (
+      this.state.pollView === 'unanswered' && (
         <div>
           <p>Unanswered</p>
-          {
-            this.props.unansweredPolls.map((question) => (
-              <div className="Poll" key={question.id}>
-                <p>{question.author}</p>
-                <p>{question.timestamp}</p>
-                <p>{question.optionOne.text}</p>
-                <p>{question.optionTwo.text}</p>
-                <p>
-                  <Link to={{
+          {this.props.unansweredPolls.map((question) => (
+            <div className="Poll" key={question.id}>
+              <p>{question.author}</p>
+              <p>{question.timestamp}</p>
+              <p>{question.optionOne.text}</p>
+              <p>{question.optionTwo.text}</p>
+              <p>
+                <Link
+                  to={{
                     pathname: `/questions/${question.id}`,
-                    state: {loggedInUser: this.props.loggedInUser}}}>View Details</Link>
-                </p>
-              </div>
-            ))
-          }
+                    state: { loggedInUser: this.props.loggedInUser }
+                  }}
+                >
+                  View Details
+                </Link>
+              </p>
+            </div>
+          ))}
         </div>
-      );
+      )
+    );
   };
 
   render() {
@@ -67,8 +75,8 @@ class Polls extends React.Component {
           <option value="answered">Answered Polls</option>
         </select>
         <div>
-          { this.renderAnswered() }
-          { this.renderUnanswered() }
+          {this.renderAnswered()}
+          {this.renderUnanswered()}
         </div>
       </div>
     );
@@ -80,11 +88,11 @@ function didUserAnswerQuestion(user, question) {
 }
 
 function answeredPolls(loggedInUser, questions) {
-  return questions.filter((question) => (didUserAnswerQuestion(loggedInUser, question)));
+  return questions.filter((question) => didUserAnswerQuestion(loggedInUser, question));
 }
 
 function unansweredPolls(loggedInUser, questions) {
-  return questions.filter((question) => (!didUserAnswerQuestion(loggedInUser, question)));
+  return questions.filter((question) => !didUserAnswerQuestion(loggedInUser, question));
 }
 
 function mapStateToProps({ loggedInUser, questions }) {

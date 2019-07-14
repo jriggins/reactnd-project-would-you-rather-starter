@@ -1,6 +1,5 @@
-
 export default function(previousState = {}, action) {
-  switch(action.type) {
+  switch (action.type) {
     case 'RECEIVE_USERS':
       return {
         ...previousState,
@@ -20,5 +19,4 @@ export default function(previousState = {}, action) {
     default:
       return previousState;
   }
-};
-
+}

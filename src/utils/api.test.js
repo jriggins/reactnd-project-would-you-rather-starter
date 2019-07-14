@@ -1,5 +1,5 @@
 import { getInitialData } from './api';
-import { } from './api';
+import {} from './api';
 
 describe('getInitialData', () => {
   test('retrieves users', async () => {

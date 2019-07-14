@@ -8,11 +8,11 @@ class Logout extends React.Component {
   handleLogoutUser = (event) => {
     event.preventDefault();
     this.props.logoutUser(this.props.loggedInUser);
-    this.props.history.push("/");
+    this.props.history.push('/');
   };
 
   render() {
-    return(
+    return (
       <div>
         <button onClick={this.handleLogoutUser}>Logout</button>
       </div>
@@ -31,4 +31,7 @@ const mapDispatchToProps = {
   logoutUser
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Logout));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Logout));

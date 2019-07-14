@@ -1,6 +1,5 @@
-
 export default function(previousState = {}, action) {
-  switch(action.type) {
+  switch (action.type) {
     case 'RECEIVE_QUESTIONS':
       return action.questions;
     case 'SUBMIT_POLL_ANSWER':
@@ -20,9 +19,9 @@ export default function(previousState = {}, action) {
         [action.question.id]: {
           ...action.question
         }
-      }
+      };
     }
     default:
       return previousState;
   }
-};
+}

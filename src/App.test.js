@@ -11,10 +11,14 @@ test('displays a Login control', async () => {
   const store = createStore(reducers);
   store.dispatch(receiveUsers({}));
   // const { getByText, getByLabelText, findByTestId } = render(<App store={store}></App>);
-  const { getByText, getByLabelText, findByTestId } = render(<Provider store={store}><ConnectedApp/></Provider>);
+  const { getByText, getByLabelText, findByTestId } = render(
+    <Provider store={store}>
+      <ConnectedApp />
+    </Provider>
+  );
   await wait(() => findByTestId('sarahedo'));
   const loginForm = getByLabelText('Login');
-  fireEvent.change(loginForm, { target: { value: 'sarahedo'}});
+  fireEvent.change(loginForm, { target: { value: 'sarahedo' } });
   fireEvent.submit(loginForm);
   getByText('Logged In: sarahedo');
 });

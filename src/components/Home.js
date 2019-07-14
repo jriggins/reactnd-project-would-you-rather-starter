@@ -5,13 +5,13 @@ import Polls from './Polls';
 
 class Home extends React.Component {
   render() {
-    return(
+    return (
       <div>
         <p>Home</p>
-        <Polls/>
+        <Polls />
       </div>
     );
   }
 }
 
-export default connect()(Home)
+export default connect()(Home);

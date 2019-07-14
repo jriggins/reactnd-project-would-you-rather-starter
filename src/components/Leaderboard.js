@@ -1,5 +1,5 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 
 class Leaderboard extends React.Component {
   render() {
@@ -9,19 +9,19 @@ class Leaderboard extends React.Component {
       <div>
         <p>Leaderboard</p>
         <ul>
-          {
-            leaderboard.map((leaderboardItem) => (
-              <li key={leaderboardItem.id}>
-                <div>
-                  <p>{leaderboardItem.name}</p>
-                  <p><img alt={`${leaderboardItem.name}'s Avatar`} className='avatar' src={leaderboardItem.avatarURL}/></p>
-                  <p>{leaderboardItem.answerCount}</p>
-                  <p>{leaderboardItem.questionCount}</p>
-                  <p>{leaderboardItem.score}</p>
-                </div>
-              </li>
-            ))
-          }
+          {leaderboard.map((leaderboardItem) => (
+            <li key={leaderboardItem.id}>
+              <div>
+                <p>{leaderboardItem.name}</p>
+                <p>
+                  <img alt={`${leaderboardItem.name}'s Avatar`} className="avatar" src={leaderboardItem.avatarURL} />
+                </p>
+                <p>{leaderboardItem.answerCount}</p>
+                <p>{leaderboardItem.questionCount}</p>
+                <p>{leaderboardItem.score}</p>
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
     );
@@ -29,7 +29,7 @@ class Leaderboard extends React.Component {
 }
 
 function mapStateToProps({ loggedInUser, leaderboard }) {
-  const sortByScoreDescending = (leaderboardItemA, leaderboardItemB) => (leaderboardItemB.score - leaderboardItemA.score);
+  const sortByScoreDescending = (leaderboardItemA, leaderboardItemB) => leaderboardItemB.score - leaderboardItemA.score;
 
   return {
     loggedInUser,
