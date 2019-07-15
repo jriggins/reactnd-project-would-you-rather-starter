@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 
-function PollList({ polls, loggedInUser }) {
+function PollList({ polls }) {
   return (
     <div>
       {polls.map((question) => (
@@ -12,14 +11,7 @@ function PollList({ polls, loggedInUser }) {
           <p>{question.optionOne.text}</p>
           <p>{question.optionTwo.text}</p>
           <p>
-            <Link
-              to={{
-                pathname: `/questions/${question.id}`,
-                state: { loggedInUser: loggedInUser }
-              }}
-            >
-              View Details
-            </Link>
+            <Link to={`/questions/${question.id}`}>View Details</Link>
           </p>
         </div>
       ))}
@@ -27,10 +19,4 @@ function PollList({ polls, loggedInUser }) {
   );
 }
 
-function mapStateToProps({ loggedInUser }) {
-  return {
-    loggedInUser
-  };
-}
-
-export default connect(mapStateToProps)(PollList);
+export default PollList;
