@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { savePollAnswer } from '../actions';
+import { savePollAnswer } from '../actions/questions';
 import NotFound from './NotFound';
 
 class PollDetails extends React.Component {

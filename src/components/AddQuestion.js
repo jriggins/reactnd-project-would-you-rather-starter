@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { saveQuestion } from '../actions';
+import { saveQuestion } from '../actions/questions';
 
 class AddQuestion extends React.Component {
   state = {

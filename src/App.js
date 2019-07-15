@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { loadInitialData } from './actions';
+import { loadInitialData } from './actions/initial';
 
 import AddQuestion from './components/AddQuestion';
 import Home from './components/Home';

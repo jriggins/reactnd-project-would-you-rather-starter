@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { logoutUser } from '../actions';
+import { logoutUser } from '../actions/auth';
 
 function Logout({ loggedInUser, logoutUser, history }) {
   const handleLogoutUser = (event) => {
