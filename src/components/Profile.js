@@ -3,21 +3,13 @@ import { connect } from 'react-redux';
 
 import Logout from './Logout';
 
-class Profile extends React.Component {
-  render() {
-    const { loggedInUser } = this.props;
-
-    if (loggedInUser !== null) {
-      return (
-        <div className="Profile">
-          <p>Logged In: {loggedInUser.id}</p>
-          <Logout />
-        </div>
-      );
-    } else {
-      return null;
-    }
-  }
+function Profile({ loggedInUser }) {
+  return loggedInUser !== null ? (
+    <div className="Profile">
+      <p>Logged In: {loggedInUser.id}</p>
+      <Logout />
+    </div>
+  ) : null;
 }
 
 function mapStateToProps({ loggedInUser }) {
