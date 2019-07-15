@@ -1,4 +1,4 @@
-export default function(previousState = [], action) {
+export default function(previousState = {}, action) {
   switch (action.type) {
     case 'RECEIVE_USERS':
       const mapUserToLeaderboard = (user) => {
@@ -17,11 +17,14 @@ export default function(previousState = [], action) {
         };
       };
 
-      return Object.fromEntries(
-        Object.values(action.users)
-          .map(mapUserToLeaderboard)
-          .map((user) => [user.id, user])
-      );
+      const mapUsersToLeaderboard = (users) =>
+        Object.fromEntries(
+          Object.values(users)
+            .map(mapUserToLeaderboard)
+            .map((user) => [user.id, user])
+        );
+
+      return mapUsersToLeaderboard(action.users);
     case 'SUBMIT_POLL_ANSWER':
       const answerSubmitter = previousState[action.userId];
 
