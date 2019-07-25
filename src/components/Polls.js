@@ -37,8 +37,7 @@ function mapStateToProps({ users, loggedInUserId, questions }) {
 
   return {
     unansweredPolls: unansweredPolls(loggedInUser, sortByTimestampAscending),
-    answeredPolls: answeredPolls(loggedInUser, sortByTimestampAscending),
-    loggedInUserId
+    answeredPolls: answeredPolls(loggedInUser, sortByTimestampAscending)
   };
 }
 
